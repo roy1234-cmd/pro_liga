@@ -1,0 +1,25 @@
+
+h1 {
+    color: #e32613; /* Rojo / Naranja intenso */
+    font-size: 36px;
+    font-weight: bold;
+}
+
+
+.primer-parrafo {
+    color: #e2f232; /* Amarillo verdoso / Lima */
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+.segundo-parrafo {
+    color: #d11252; /* Magenta / Fucsia oscuro */
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.tercer-parrafo {
+    color: #3b74cb; /* Azul */
+    font-size: 18px;
+}

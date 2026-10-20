@@ -1,0 +1,457 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferretería Industrial</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f1f3f5;
+            color: #222;
+        }
+
+        header {
+            background: #172b4d;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            color: #ffbd35;
+            margin-bottom: 10px;
+        }
+
+        nav {
+            margin-top: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 10px;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            color: #ffbd35;
+        }
+
+        .banner {
+            background: #ffbd35;
+            padding: 45px 20px;
+            text-align: center;
+        }
+
+        .banner h2 {
+            font-size: 32px;
+        }
+
+        .banner a {
+            display: inline-block;
+            background: #172b4d;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 25px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .filtros {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        input, select {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .grid-productos {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .tarjeta {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px #00000015;
+            text-align: center;
+        }
+
+        .icono {
+            font-size: 65px;
+            padding: 15px;
+        }
+
+        .precio {
+            display: block;
+            color: #16803c;
+            font-size: 22px;
+            font-weight: bold;
+            margin: 15px;
+        }
+
+        button {
+            background: #172b4d;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #ffbd35;
+            color: #172b4d;
+        }
+
+        #carrito {
+            background: white;
+            margin-top: 35px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .producto-carrito {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            border-bottom: 1px solid #ddd;
+            padding: 12px 0;
+            flex-wrap: wrap;
+        }
+
+        .eliminar {
+            background: #c62828;
+        }
+
+        footer {
+            background: #172b4d;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🔧 FERRETERÍA INDUSTRIAL</h1>
+    <p>Herramientas de calidad para tus grandes proyectos</p>
+
+    <p><strong>Integrantes:</strong></p>
+    <p>AMPUERO HURTADO ROYER YUNIOR</p>
+    <p>HILARES CAMERO KIMBELY SHADAY</p>
+    <p>CABRERA MOREANO DIEGO RODRIGO</p>
+    <p>SALAZAR HUAMANI JOHN ERICK</p>
+    <p>JOSE LUIS SERRANO CAHUANA</p>
+
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#catalogo">Productos</a>
+        <a href="#carrito">🛒 Mi compra (<span id="contador">0</span>)</a>
+    </nav>
+</header>
+
+<section class="banner" id="inicio">
+    <h2>Todo para tu taller y obra</h2>
+    <p>Encuentra herramientas eléctricas, manuales y equipos de seguridad.</p>
+    <a href="#catalogo">Ver productos ↓</a>
+</section>
+
+<main id="catalogo">
+    <h2>🛠️ Nuestro catálogo</h2>
+
+    <div class="filtros">
+        <input
+            type="search"
+            id="busqueda"
+            placeholder="Buscar una herramienta..."
+        >
+
+        <select id="categoria">
+            <option value="todos">Todas las categorías</option>
+            <option value="electricas">Eléctricas</option>
+            <option value="manuales">Manuales</option>
+            <option value="seguridad">Seguridad</option>
+            <option value="medicion">Medición</option>
+        </select>
+    </div>
+
+    <div class="grid-productos" id="productos">
+
+        <article class="tarjeta"
+            data-nombre="Taladro percutor 800w"
+            data-categoria="electricas"
+            data-precio="85">
+            <div class="icono">🔩</div>
+            <h3>Taladro Percutor 800W</h3>
+            <p>Ideal para perforar concreto y metal.</p>
+            <span class="precio">S/ 85.00</span>
+            <button onclick="agregar(this)">Añadir a mi compra</button>
+        </article>
+
+        <article class="tarjeta"
+            data-nombre="Amoladora angular"
+            data-categoria="electricas"
+            data-precio="65">
+            <div class="icono">⚙️</div>
+            <h3>Amoladora Angular</h3>
+            <p>Para cortar y desbastar diferentes materiales.</p>
+            <span class="precio">S/ 65.00</span>
+            <button onclick="agregar(this)">Añadir a mi compra</button>
+        </article>
+
+        <article class="tarjeta"
+            data-nombre="Taladro inalámbrico"
+            data-categoria="electricas"
+            data-precio="120">
+            <div class="icono">🔧</div>
+            <h3>Taladro Inalámbrico</h3>
+            <p>Práctico para trabajos de instalación.</p>
+            <span class="precio">S/ 120.00</span>
+            <button onclick="agregar(this)">Añadir a mi compra</button>
+        </article>
+
+        <article class="tarjeta"
+            data-nombre="Juego de llaves"
+            data-categoria="manuales"
+            data-precio="35">
+            <div class="icono">🔑</div>
+            <h3>Juego de Llaves</h3>
+            <p>Juego de herramientas para mecánica.</p>
+            <span class="precio">S/ 35.00</span>
+            <button onclick="agregar(this)">Añadir a mi compra</button>
+        </article>
+
+        <article class="tarjeta"
+            data-nombre="Martillo de acero"
+            data-categoria="manuales"
+            data-precio="22">
+            <div class="icono">🔨</div>
+            <h3>Martillo de Acero</h3>
+            <p>Mango resistente para trabajos diarios.</p>
+            <span class="precio">S/ 22.00</span>
+            <button onclick="agregar(this)">Añadir a mi compra</button>
+        </article>
+
+        <article class="tarjeta"
+            data-nombre="Set de destornilladores"
+            data-categoria="manuales"
+            data-precio="28">
+            <div class="icono">🪛</div>
+            <h3>Set de Destornilladores</h3>
+            <p>Puntas planas y de estrella.</p>
+            <span class="precio">S/ 28.00</span>
+            <button onclick="agregar(this)">Añadir a mi compra</button>
+        </article>
+
+        <article class="tarjeta"
+            data-nombre="Casco de seguridad"
+            data-categoria="seguridad"
+            data-precio="32">
+            <div class="icono">🪖</div>
+            <h3>Casco de Seguridad</h3>
+            <p>Protección para trabajos de construcción.</p>
+            <span class="precio">S/ 32.00</span>
+            <button onclick="agregar(this)">Añadir a mi compra</button>
+        </article>
+
+        <article class="tarjeta"
+            data-nombre="Guantes de trabajo"
+            data-categoria="seguridad"
+            data-precio="15">
+            <div class="icono">🧤</div>
+            <h3>Guantes de Trabajo</h3>
+            <p>Mejor agarre y protección para las manos.</p>
+            <span class="precio">S/ 15.00</span>
+            <button onclick="agregar(this)">Añadir a mi compra</button>
+        </article>
+
+        <article class="tarjeta"
+            data-nombre="Wincha métrica 5 metros"
+            data-categoria="medicion"
+            data-precio="14">
+            <div class="icono">📏</div>
+            <h3>Wincha Métrica 5 m</h3>
+            <p>Para realizar mediciones precisas.</p>
+            <span class="precio">S/ 14.00</span>
+            <button onclick="agregar(this)">Añadir a mi compra</button>
+        </article>
+
+        <article class="tarjeta"
+            data-nombre="Nivel de burbuja"
+            data-categoria="medicion"
+            data-precio="25">
+            <div class="icono">📐</div>
+            <h3>Nivel de Burbuja</h3>
+            <p>Para comprobar superficies niveladas.</p>
+            <span class="precio">S/ 25.00</span>
+            <button onclick="agregar(this)">Añadir a mi compra</button>
+        </article>
+
+    </div>
+
+    <section id="carrito">
+        <h2>🛒 Mi compra</h2>
+        <div id="lista-carrito">
+            <p>Tu carrito está vacío.</p>
+        </div>
+
+        <h3>Total: S/ <span id="total">0.00</span></h3>
+
+        <button onclick="vaciar()">Vaciar carrito</button>
+        <button onclick="finalizar()">Continuar compra</button>
+    </section>
+</main>
+
+<footer>
+    <p>© 2026 Ferretería Industrial</p>
+    <p>Calidad, seguridad y herramientas para todos.</p>
+</footer>
+
+<script>
+    let carrito = [];
+
+    function agregar(boton) {
+        const tarjeta = boton.closest(".tarjeta");
+        const nombre = tarjeta.dataset.nombre;
+        const precio = Number(tarjeta.dataset.precio);
+
+        const existente = carrito.find(p => p.nombre === nombre);
+
+        if (existente) {
+            existente.cantidad++;
+        } else {
+            carrito.push({
+                nombre: nombre,
+                precio: precio,
+                cantidad: 1
+            });
+        }
+
+        mostrarCarrito();
+    }
+
+    function mostrarCarrito() {
+        const lista = document.getElementById("lista-carrito");
+        const contador = document.getElementById("contador");
+        const totalTexto = document.getElementById("total");
+
+        lista.innerHTML = "";
+        let total = 0;
+        let cantidadTotal = 0;
+
+        if (carrito.length === 0) {
+            lista.innerHTML = "<p>Tu carrito está vacío.</p>";
+        }
+
+        carrito.forEach((producto, indice) => {
+            total += producto.precio * producto.cantidad;
+            cantidadTotal += producto.cantidad;
+
+            const fila = document.createElement("div");
+            fila.className = "producto-carrito";
+
+            const detalle = document.createElement("span");
+            detalle.textContent =
+                `${producto.nombre} x ${producto.cantidad} — S/ ${
+                    (producto.precio * producto.cantidad).toFixed(2)
+                }`;
+
+            const eliminar = document.createElement("button");
+            eliminar.className = "eliminar";
+            eliminar.textContent = "Eliminar";
+            eliminar.onclick = () => {
+                carrito.splice(indice, 1);
+                mostrarCarrito();
+            };
+
+            fila.append(detalle, eliminar);
+            lista.appendChild(fila);
+        });
+
+        contador.textContent = cantidadTotal;
+        totalTexto.textContent = total.toFixed(2);
+    }
+
+    function vaciar() {
+        carrito = [];
+        mostrarCarrito();
+    }
+
+    function finalizar() {
+        if (carrito.length === 0) {
+            alert("Primero añade productos a tu compra.");
+            return;
+        }
+
+        const resumen = carrito.map(p =>
+            `${p.nombre} x ${p.cantidad}: S/ ${
+                (p.precio * p.cantidad).toFixed(2)
+            }`
+        ).join("\n");
+
+        const total = carrito.reduce(
+            (suma, p) => suma + p.precio * p.cantidad, 0
+        );
+
+        alert(
+            "Resumen de tu compra:\n\n" + resumen +
+            "\n\nTOTAL: S/ " + total.toFixed(2) +
+            "\n\nEsta es una demostración. Para recibir pedidos reales, " +
+            "se necesita configurar un medio de pago o contacto."
+        );
+    }
+
+    function filtrar() {
+        const texto = document.getElementById("busqueda")
+            .value.toLowerCase();
+        const categoria = document.getElementById("categoria").value;
+
+        document.querySelectorAll(".tarjeta").forEach(tarjeta => {
+            const nombre = tarjeta.dataset.nombre.toLowerCase();
+            const coincideTexto = nombre.includes(texto);
+            const coincideCategoria =
+                categoria === "todos" ||
+                tarjeta.dataset.categoria === categoria;
+
+            tarjeta.style.display =
+                coincideTexto && coincideCategoria ? "" : "none";
+        });
+    }
+
+    document.getElementById("busqueda")
+        .addEventListener("input", filtrar);
+
+    document.getElementById("categoria")
+        .addEventListener("change", filtrar);
+</script>
+
+</body>
+</html>
+```

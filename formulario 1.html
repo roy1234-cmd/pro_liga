@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Registro de Productos</title>
+
+    <style>
+
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a, #1e3a8a, #2563eb);
+            color: #fff;
+            padding: 30px;
+        }
+
+ 
+
+        .contenedor {
+            width: 95%;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+   
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #dbeafe;
+            font-size: 18px;
+        }
+
+
+        .estadisticas {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .estadistica {
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: 0.3s;
+        }
+
+        .estadistica:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.18);
+        }
+
+        .estadistica h2 {
+            font-size: 30px;
+            color: #93c5fd;
+        }
+
+        .estadistica p {
+            margin-top: 5px;
+        }
+
+        /* =========================
+           PANEL
+        ========================= */
+
+        .panel {
+            background: white;
+            color: #222;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .panel h2 {
+            margin-bottom: 20px;
+            color: #1e3a8a;
+        }
+
+        /* =========================
+           FORMULARIO
+        ========================= */
+
+        .formulario {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .campo label {
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #374151;
+        }
+
+        .campo input,
+        .campo select {
+            padding: 13px;
+            border: 2px solid #d1d5db;
+            border-radius: 10px;
+            outline: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .campo input:focus,
+        .campo select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 8px rgba(37,99,235,0.25);
+        }
+
+        .campo-completo {
+            grid-column: span 2;
+        }
+
+        /* =========================
+           BOTÓN
+        ========================= */
+
+        .btn-registrar {
+            grid-column: span 2;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-registrar:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(37,99,235,0.4);
+        }
+
+        /* =========================
+           BUSCADOR
+        ========================= */
+
+        .busqueda {
+            margin-bottom: 20px;
+        }
+
+        .busqueda input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .busqueda input:focus {
+            border-color: #2563eb;
+        }
+
+        /* =========================
+           TABLA
+        ========================= */
+
+        .tabla-contenedor {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #1e3a8a;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr {
+            transition: 0.2s;
+        }
+
+        tr:hover {
+            background: #eff6ff;
+        }
+
+        /* =========================
+           BOTÓN ELIMINAR
+        ========================= */
+
+        .btn-eliminar {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-eliminar:hover {
+            background: #991b1b;
+            transform: scale(1.05);
+        }
+
+        /* =========================
+           MENSAJE
+        ========================= */
+
+        .mensaje {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+
+            background: #16a34a;
+            color: white;
+
+            padding: 15px 25px;
+            border-radius: 10px;
+
+            display: none;
+
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+
+            animation: aparecer 0.4s ease;
+        }
+
+        @keyframes aparecer {
+
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+        }
+
+        /* =========================
+           BOTÓN MODO OSCURO
+        ========================= */
+
+        .modo {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+
+            background: white;
+            color: #1e3a8a;
+
+            border: none;
+            padding: 10px 15px;
+
+            border-radius: 20px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width: 700px) {
+
+            body {
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 30px;
+            }
+
+            .estadisticas {
+                grid-template-columns: 1fr;
+            }
+
+            .formulario {
+                grid-template-columns: 1fr;
+            }
+
+            .campo-completo,
+            .btn-registrar {
+                grid-column: span 1;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- BOTÓN MODO OSCURO -->
+
+    <button class="modo" onclick="cambiarModo()">
+        🌙 Modo oscuro
+    </button>
+
+
+    <div class="contenedor">
+
+
+        <!-- =========================
+             ENCABEZADO
+        ========================= -->
+
+        <header>
+
+            <h1>📦 Registro de Productos</h1>
+
+            <p>
+                Sistema dinámico para registrar y administrar productos
+            </p>
+
+        </header>
+
+
+        <!-- =========================
+             ESTADÍSTICAS
+        ========================= -->
+
+        <div class="estadisticas">
+
+            <div class="estadistica">
+
+                <h2 id="cantidadProductos">
+                    5
+                </h2>
+
+                <p>
+                    Productos registrados
+                </p>
+
+            </div>
+
+
+            <div class="estadistica">
+
+                <h2 id="precioTotal">
+                    S/ 3,695.00
+                </h2>
+
+                <p>
+                    Valor total
+                </p>
+
+            </div>
+
+
+            <div class="estadistica">
+
+                <h2>
+                    🟢 Activo
+                </h2>
+
+                <p>
+                    Estado del sistema
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             FORMULARIO
+        ========================= -->
+
+        <div class="panel">
+
+            <h2>
+                ➕ Registrar nuevo producto
+            </h2>
+
+
+            <form id="formulario" class="formulario">
+
+
+                <div class="campo">
+
+                    <label>
+                        Nombre del producto
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nombre"
+                        placeholder="Ejemplo: Laptop HP"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Categoría
+                    </label>
+
+                    <select id="categoria" required>
+
+                        <option value="">
+                            Seleccione una categoría
+                        </option>
+
+                        <option value="Tecnología">
+                            Tecnología
+                        </option>
+
+                        <option value="Accesorios">
+                            Accesorios
+                        </option>
+
+                        <option value="Audio">
+                            Audio
+                        </option>
+
+                        <option value="Oficina">
+                            Oficina
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="campo campo-completo">
+
+                    <label>
+                        Precio unitario
+                    </label>
+
+                    <input
+                        type="number"
+                        id="precio"
+                        placeholder="Ejemplo: 1500"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn-registrar"
+                >
+
+                    🚀 Registrar producto
+
+                </button>
+
+
+            </form>
+
+        </div>
+
+
+
+        <!-- =========================
+             LISTA DE PRODUCTOS
+        ========================= -->
+
+        <div class="panel">
+
+            <h2>
+                📋 Productos registrados
+            </h2>
+
+
+            <!-- BUSCADOR -->
+
+            <div class="busqueda">
+
+                <input
+                    type="text"
+                    id="buscador"
+                    placeholder="🔎 Buscar producto..."
+                >
+
+            </div>
+
+
+            <div class="tabla-contenedor">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Producto
+                            </th>
+
+                            <th>
+                                Categoría
+                            </th>
+
+                            <th>
+                                Precio
+                            </th>
+
+                            <th>
+                                Acción
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="listaProductos">
+
+
+                        <tr>
+
+                            <td>
+                                Laptop Lenovo
+                            </td>
+
+                            <td>
+                                Tecnología
+                            </td>
+
+                            <td>
+                                S/ 2500.00
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="btn-eliminar"
+                                    onclick="eliminarProducto(this)"
+                                >
+                                    🗑️ Eliminar
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Mouse inalámbrico
+                            </td>
+
+                            <td>
+                                Accesorios
+                            </td>
+
+                            <td>
+                                S/ 45.00
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="btn-eliminar"
+                                    onclick="eliminarProducto(this)"
+                                >
+                                    🗑️ Eliminar
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Teclado mecánico
+                            </td>
+
+                            <td>
+                                Accesorios
+                            </td>
+
+                            <td>
+                                S/ 180.00
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="btn-eliminar"
+                                    onclick="eliminarProducto(this)"
+                                >
+                                    🗑️ Eliminar
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Monitor Samsung
+                            </td>
+
+                            <td>
+                                Tecnología
+                            </td>
+
+                            <td>
+                                S/ 850.00
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="btn-eliminar"
+                                    onclick="eliminarProducto(this)"
+                                >
+                                    🗑️ Eliminar
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Audífonos Bluetooth
+                            </td>
+
+                            <td>
+                                Audio
+                            </td>
+
+                            <td>
+                                S/ 120.00
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="btn-eliminar"
+                                    onclick="eliminarProducto(this)"
+                                >
+                                    🗑️ Eliminar
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- MENSAJE -->
+
+    <div
+        class="mensaje"
+        id="mensaje"
+    >
+
+        ✅ Producto registrado correctamente
+
+    </div>
+
+
+
+    <script>
+
+        /* =========================
+           REGISTRAR PRODUCTO
+        ========================= */
+
+        const formulario =
+            document.getElementById("formulario");
+
+        formulario.addEventListener(
+            "submit",
+            function(evento) {
+
+                evento.preventDefault();
+
+
+                const nombre =
+                    document.getElementById("nombre").value;
+
+                const categoria =
+                    document.getElementById("categoria").value;
+
+                const precio =
+                    parseFloat(
+                        document.getElementById("precio").value
+                    );
+
+
+                const tabla =
+                    document.getElementById("listaProductos");
+
+
+                const fila =
+                    document.createElement("tr");
+
+
+                fila.innerHTML = `
+
+                    <td>
+                        ${nombre}
+                    </td>
+
+                    <td>
+                        ${categoria}
+                    </td>
+
+                    <td>
+                        S/ ${precio.toFixed(2)}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn-eliminar"
+                            onclick="eliminarProducto(this)"
+                        >
+
+                            🗑️ Eliminar
+
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                tabla.appendChild(fila);
+
+
+                formulario.reset();
+
+
+                actualizarEstadisticas();
+
+
+                mostrarMensaje();
+
+            }
+        );
+
+
+
+        /* =========================
+           ELIMINAR PRODUCTO
+        ========================= */
+
+        function eliminarProducto(boton) {
+
+            const fila =
+                boton.parentElement.parentElement;
+
+            fila.remove();
+
+            actualizarEstadisticas();
+
+        }
+
+
+
+        /* =========================
+           ACTUALIZAR ESTADÍSTICAS
+        ========================= */
+
+        function actualizarEstadisticas() {
+
+            const filas =
+                document.querySelectorAll(
+                    "#listaProductos tr"
+                );
+
+
+            document.getElementById(
+                "cantidadProductos"
+            ).textContent = filas.length;
+
+
+            let total = 0;
+
+
+            filas.forEach(function(fila) {
+
+                const precioTexto =
+                    fila.children[2].textContent;
+
+                const precio =
+                    parseFloat(
+                        precioTexto
+                        .replace("S/", "")
+                        .trim()
+                    );
+
+
+                total += precio;
+
+            });
+
+
+            document.getElementById(
+                "precioTotal"
+            ).textContent =
+                "S/ " + total.toFixed(2);
+
+        }
+
+
+
+        /* =========================
+           MENSAJE
+        ========================= */
+
+        function mostrarMensaje() {
+
+            const mensaje =
+                document.getElementById("mensaje");
+
+
+            mensaje.style.display = "block";
+
+
+            setTimeout(function() {
+
+                mensaje.style.display = "none";
+
+            }, 2500);
+
+        }
+
+
+
+        /* =========================
+           BUSCADOR
+        ========================= */
+
+        document
+            .getElementById("buscador")
+            .addEventListener(
+                "keyup",
+                function() {
+
+                    const texto =
+                        this.value.toLowerCase();
+
+
+                    const filas =
+                        document.querySelectorAll(
+                            "#listaProductos tr"
+                        );
+
+
+                    filas.forEach(function(fila) {
+
+                        const contenido =
+                            fila.textContent.toLowerCase();
+
+
+                        if (
+                            contenido.includes(texto)
+                        ) {
+
+                            fila.style.display = "";
+
+                        } else {
+
+                            fila.style.display = "none";
+
+                        }
+
+                    });
+
+                }
+            );
+
+
+
+        /* =========================
+           MODO OSCURO
+        ========================= */
+
+        function cambiarModo() {
+
+            document.body.classList.toggle(
+                "modo-oscuro"
+            );
+
+        }
+
+    </script>
+
+
+    <style>
+
+        /* =========================
+           MODO OSCURO
+        ========================= */
+
+        .modo-oscuro {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #020617,
+                    #111827,
+                    #1e293b
+                );
+
+        }
+
+        .modo-oscuro .panel {
+
+            background: #1e293b;
+
+            color: white;
+
+        }
+
+        .modo-oscuro .panel h2 {
+
+            color: #93c5fd;
+
+        }
+
+        .modo-oscuro .campo label {
+
+            color: #e5e7eb;
+
+        }
+
+        .modo-oscuro .campo input,
+        .modo-oscuro .campo select,
+        .modo-oscuro .busqueda input {
+
+            background: #334155;
+
+            color: white;
+
+            border-color: #64748b;
+
+        }
+
+        .modo-oscuro td {
+
+            border-color: #475569;
+
+        }
+
+        .modo-oscuro tr:hover {
+
+            background: #334155;
+
+        }
+
+    </style>
+
+</body>
+
+</html>
